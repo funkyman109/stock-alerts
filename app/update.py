@@ -33,11 +33,22 @@ if __name__ == "__main__":
     
     elif action == 'delete':
         ticker= input('please indicate the stock ticker (lower case): ')
-        print(ticker)
+        #print(ticker)
+        lines = list()
+        with open(csv_file_path, 'r') as readFile:
+            reader = csv.reader(readFile)
+            for row in reader:
+                lines.append(row)
+                for field in row:
+                    if field == ticker:
+                        lines.remove(row)
+        with open(csv_file_path, 'w') as writeFile:
+            writer = csv.writer(writeFile)
+            writer.writerows(lines)
 
 
 
-    row_dict = {'ticker': ticker,'timestamp': '','open':'','high':'','low':'', 'close':'', 'volume':''}
+    #row_dict = {'ticker': ticker,'timestamp': '','open':'','high':'','low':'', 'close':'', 'volume':''}
  
     # Append a dict as a row in csv file
-    append_dict_as_row(csv_file_path, row_dict, csv_headers)
+    #append_dict_as_row(csv_file_path, row_dict, csv_headers)
