@@ -1,0 +1,10 @@
+python-dotenv
+sendgrid==6.0.5
+requests
+pandas
+os
+json
+csv
+datetime
+sys
+re 
