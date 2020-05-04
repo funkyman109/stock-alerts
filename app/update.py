@@ -33,7 +33,7 @@ if __name__ == "__main__":
     
     elif action == 'delete':
         ticker= input('please indicate the stock ticker (lower case): ')
-        #print(ticker)
+        #taken from https://intellipaat.com/community/18827/how-to-delete-only-one-row-in-csv-with-python
         lines = list()
         with open(csv_file_path, 'r') as readFile:
             reader = csv.reader(readFile)
@@ -45,10 +45,3 @@ if __name__ == "__main__":
         with open(csv_file_path, 'w') as writeFile:
             writer = csv.writer(writeFile)
             writer.writerows(lines)
-
-
-
-    #row_dict = {'ticker': ticker,'timestamp': '','open':'','high':'','low':'', 'close':'', 'volume':''}
- 
-    # Append a dict as a row in csv file
-    #append_dict_as_row(csv_file_path, row_dict, csv_headers)
