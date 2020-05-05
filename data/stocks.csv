@@ -1,3 +1,4 @@
-ticker,timestamp,open,high,low,close,volume
-aapl,,,,,,
-f,,,,,,
+ticker,timestamp,open,high,low,close,volume,daily action
+aapl,,,,,,,
+w,,,,,,,
+f,,,,,,,
