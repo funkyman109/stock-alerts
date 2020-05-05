@@ -16,7 +16,7 @@ def append_dict_as_row(file_name, dict_of_elem, field_names):
 if __name__ == "__main__":
  
     csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "stocks.csv")
-    csv_headers = ['ticker', 'timestamp', 'open', 'high', 'low', 'close', 'volume']
+    csv_headers = ['ticker', 'timestamp', 'open', 'high', 'low', 'close', 'volume', 'daily action']
     
     action= input('please indicate desired action (add/delete): ')
     if action == 'add':
@@ -28,7 +28,7 @@ if __name__ == "__main__":
             print("Error! Only 5 characters allowed!")
             sys.exit()
         #print(ticker)
-        row_dict = {'ticker': ticker,'timestamp': '','open':'','high':'','low':'', 'close':'', 'volume':''}
+        row_dict = {'ticker': ticker,'timestamp': '','open':'','high':'','low':'', 'close':'', 'volume':'', 'daily action':''}
         append_dict_as_row(csv_file_path, row_dict, csv_headers)
     
     elif action == 'delete':
