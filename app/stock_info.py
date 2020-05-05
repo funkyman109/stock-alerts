@@ -65,14 +65,6 @@ if __name__ == "__main__":
     api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="OOPS")
 
     #taken from https://stackoverflow.com/questions/8761778/limiting-python-input-strings-to-certain-characters-and-lengths
-    symbol = input("Please enter the ticker of your stock of choice: ")
-    if not re.match("^[a-z]*$", symbol):
-        print("Error! Only letters a-z allowed!")
-        sys.exit()
-    elif len(symbol) > 5:
-        print("Error! Only 5 characters allowed!")
-        sys.exit()
-
     response = get_response(symbol, api_key)
     parsed_response = parsed_answer(response)
     last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
