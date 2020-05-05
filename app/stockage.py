@@ -46,16 +46,26 @@ if __name__ == "__main__":
         symbol = df['ticker'][row]
         response = get_response(symbol, api_key)
         parsed_response = parsed_answer(response)
+        #last_refresh = parsed_response["Meta Data"]["3. Last Refreshed"]
         tsd = parsed_response['Time Series (Daily)']
         dates = list(tsd.keys())
         latest_date = dates[0]
         latest_open = float(tsd[latest_date]['1. open'])
-        latest_high = to_usd(float(tsd[latest_date]['2. high']))
-        Latest_low = to_usd(float(tsd[latest_date]['3. low']))
+        latest_high = float(tsd[latest_date]['2. high'])
+        latest_low = float(tsd[latest_date]['3. low'])
         latest_close = float(tsd[latest_date]['4. close'])
         latest_volume = float(tsd[latest_date]['5. volume'])
         daily_action = (latest_open-latest_close)/latest_open
-        df['open'][row] = latest_open
-        print(symbol, latest_open, latest_high, Latest_low, latest_close, latest_volume, daily_action)
+        #df['timestamp'][row]= last_refresh
+        df['open'][row] = to_usd(latest_open)
+        df['high'][row] = to_usd(latest_high)
+        df['low'][row] = to_usd(latest_low)
+        df['close'][row] = to_usd(latest_close)
+        df['volume'][row] = latest_volume
+        df['daily action'][row] = daily_action
+        print(symbol, latest_open, latest_high, latest_low, latest_close, latest_volume, daily_action)
     
-print(df)
+    print(df)
+
+    csv_file_path_2 = os.path.join(os.path.dirname(__file__), "..", "data", "stock_info.csv")
+    df.to_csv(csv_file_path_2, index=False)
