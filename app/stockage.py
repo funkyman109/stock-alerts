@@ -69,3 +69,8 @@ if __name__ == "__main__":
 
     csv_file_path_2 = os.path.join(os.path.dirname(__file__), "..", "data", "stock_info.csv")
     df.to_csv(csv_file_path_2, index=False)
+
+    writer = pd.ExcelWriter('stock_info.xlsx')
+    df.to_excel(writer)
+    writer.save()
+
