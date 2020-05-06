@@ -1,21 +1,43 @@
 #based on daily briefings exercise
-
+#attatchment code taken from https://www.twilio.com/blog/sending-email-attachments-with-twilio-sendgrid-python
 import os
+import base64
 from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import (Mail, Attachment, FileContent, FileName, FileType, Disposition)
 
 load_dotenv()
 
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 MY_EMAIL = os.environ.get("MY_EMAIL_ADDRESS")
+attatch_content = 0
 
 def send_email(subject="[Daily Briefing] This is a test", html="<p>Hello World</p>"):
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
     print("CLIENT:", type(client))
     print("SUBJECT:", subject)
     #print("HTML:", html)
-    message = Mail(from_email=MY_EMAIL, to_emails=MY_EMAIL, subject=subject, html_content=html)
+    message = Mail(
+        from_email=MY_EMAIL, 
+        to_emails=MY_EMAIL, 
+        subject=subject, 
+        html_content=html, 
+    )
+
+    with open('stock_info.xlsx', 'rb') as f:
+        data = f.read()
+        f.close()
+    encoded_file = base64.b64encode(data).decode()
+
+    attached_file = Attachment(
+        FileContent(encoded_file),
+        FileName('stock_info.xlsx'),
+        FileType('application/xlsx')
+        #Disposition('attatchment')
+    )
+
+    message.attachment = attached_file
+
     try:
         response = client.send(message)
         print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
