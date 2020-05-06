@@ -38,7 +38,7 @@ def parsed_answer(response):
 
 def stockage(csv_file_path):
     df = pd.read_csv(csv_file_path)
-    #print(df)
+    api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="OOPS")
     for row in df.index:
         symbol = df['ticker'][row]
         response = get_response(symbol, api_key)
@@ -64,7 +64,6 @@ def stockage(csv_file_path):
 
 if __name__ == "__main__":
     csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "stocks.csv")
-    Daytime = datetime.datetime.now()
     api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="OOPS")
     
     
@@ -72,7 +71,14 @@ if __name__ == "__main__":
     print(stocks)
 
     action_list = stocks['daily action'].tolist()
-    print(action_list)
+    bad_stocks = []
+    for s in action_list:
+        if s < -0.005:
+            bad_stocks.append(s)
+    print(bad_stocks)
+
+
+
 
     #csv_file_path_2 = os.path.join(os.path.dirname(__file__), "..", "data", "stock_info.csv")
     #stocks.to_csv(csv_file_path_2, index=False)
@@ -80,4 +86,3 @@ if __name__ == "__main__":
     #writer = pd.ExcelWriter('stock_info.xlsx')
     #stocks.to_excel(writer)
     #writer.save()
-
