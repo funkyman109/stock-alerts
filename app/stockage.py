@@ -36,10 +36,7 @@ def parsed_answer(response):
     parsed_response = json.loads(output)
     return parsed_response
 
-if __name__ == "__main__":
-    csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "stocks.csv")
-    Daytime = datetime.datetime.now()
-    api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="OOPS")
+def stockage(csv_file_path):
     df = pd.read_csv(csv_file_path)
     #print(df)
     for row in df.index:
@@ -63,14 +60,24 @@ if __name__ == "__main__":
         df['close'][row] = to_usd(latest_close)
         df['volume'][row] = latest_volume
         df['daily action'][row] = daily_action
-        print(symbol, latest_open, latest_high, latest_low, latest_close, latest_volume, daily_action)
+    return df
+
+if __name__ == "__main__":
+    csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "stocks.csv")
+    Daytime = datetime.datetime.now()
+    api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="OOPS")
     
-    print(df)
+    
+    stocks = stockage(csv_file_path)
+    print(stocks)
 
-    csv_file_path_2 = os.path.join(os.path.dirname(__file__), "..", "data", "stock_info.csv")
-    df.to_csv(csv_file_path_2, index=False)
+    action_list = stocks['daily action'].tolist()
+    print(action_list)
 
-    writer = pd.ExcelWriter('stock_info.xlsx')
-    df.to_excel(writer)
-    writer.save()
+    #csv_file_path_2 = os.path.join(os.path.dirname(__file__), "..", "data", "stock_info.csv")
+    #stocks.to_csv(csv_file_path_2, index=False)
+
+    #writer = pd.ExcelWriter('stock_info.xlsx')
+    #stocks.to_excel(writer)
+    #writer.save()
 
