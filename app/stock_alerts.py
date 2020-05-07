@@ -28,7 +28,7 @@ if __name__ == "__main__":
     action_list = stocks['daily action'].tolist()
     bad_stocks = []
     for s in action_list:
-        if s < -0.005:
+        if s < -0.05:
             bad_stocks.append(s)
     print(bad_stocks)
     stock_number = len(action_list)
