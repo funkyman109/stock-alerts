@@ -43,7 +43,6 @@ def stockage(csv_file_path):
         symbol = df['ticker'][row]
         response = get_response(symbol, api_key)
         parsed_response = parsed_answer(response)
-        #last_refresh = parsed_response["Meta Data"]["3. Last Refreshed"]
         tsd = parsed_response['Time Series (Daily)']
         dates = list(tsd.keys())
         latest_date = dates[0]
@@ -53,7 +52,6 @@ def stockage(csv_file_path):
         latest_close = float(tsd[latest_date]['4. close'])
         latest_volume = float(tsd[latest_date]['5. volume'])
         daily_action = (latest_open-latest_close)/latest_open
-        #df['timestamp'][row]= last_refresh
         df['open'][row] = to_usd(latest_open)
         df['high'][row] = to_usd(latest_high)
         df['low'][row] = to_usd(latest_low)
